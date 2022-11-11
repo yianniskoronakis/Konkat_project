@@ -6,11 +6,14 @@ import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext"
 import SplashScreen from "../screens/SplashScreen";
+import {
+  Button,Text,StyleSheet
+} from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () =>  {
-    const {userInfo, splashLoading} = useContext(AuthContext);
+    const {userInfo, splashLoading,logout} = useContext(AuthContext);
     return (
         <NavigationContainer>
           <Stack.Navigator>
@@ -21,7 +24,19 @@ const Navigation = () =>  {
                 options={{headerShown: false}}
               />
             ) : userInfo.bearer ? (
-              <Stack.Screen name="Home" component={HomeScreen} />
+              <>
+                <Stack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{
+                    headerRight: () => (
+                      <>
+                      <Text style={{marginRight:50}}>Welcome {userInfo.claims.names[1]}</Text>
+                      <Button title="Logout" color="red" onPress={logout}/>
+                  </>
+                  )}}
+                />  
+              </>
             ) : (
               <>
                 <Stack.Screen
@@ -35,5 +50,5 @@ const Navigation = () =>  {
         </NavigationContainer>
       );
     };
-    
+ 
     export default Navigation;

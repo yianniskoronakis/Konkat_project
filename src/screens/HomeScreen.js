@@ -1,16 +1,13 @@
 import React, { useContext } from "react";
-import {Button, Text, View, StyleSheet} from "react-native";
+import { View, StyleSheet} from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = () =>  {
-    const {userInfo, isLoading, logout} = useContext(AuthContext);
+    const {isLoading} = useContext(AuthContext);
     return(
         <View style={styles.container}>
             <Spinner visible={isLoading}/>
-    
-            <Text style={styles.welcome}>Welcome {userInfo.claims.names[1]}</Text>
-            <Button title="Logout" color="red" onPress={logout}/>
         </View>
     );
 };

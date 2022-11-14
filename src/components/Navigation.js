@@ -7,7 +7,7 @@ import LoginScreen from "../screens/LoginScreen";
 import { AuthContext } from "../context/AuthContext"
 import SplashScreen from "../screens/SplashScreen";
 import {
-  Button,Text,StyleSheet
+  Button,Text
 } from 'react-native';
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +45,8 @@ const Navigation = () =>  {
                   options={{headerShown: false}}
                 />
               </>
-            )}
+            ) 
+            }
           </Stack.Navigator>
         </NavigationContainer>
       );

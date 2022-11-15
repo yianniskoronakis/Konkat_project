@@ -3,7 +3,7 @@ import { View, StyleSheet,Button,Text, TouchableOpacity,Image } from "react-nati
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from "../context/AuthContext";
 
-const HomeScreen = ({ navigation }) =>  {
+const HomeScreen = ({navigation}) =>  {
     const {isLoading} = useContext(AuthContext);
     return(
         <View style={styles.container}>
@@ -11,7 +11,7 @@ const HomeScreen = ({ navigation }) =>  {
             <TouchableOpacity
                 style={styles.buttonGPlusStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('VesselList')} >
+                onPress={() => navigation.navigate('Vessel')} >
                 <Image
                     source={require('../assets/ship.png')}
                     style={styles.buttonImageIconStyle}
@@ -24,7 +24,8 @@ const HomeScreen = ({ navigation }) =>  {
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonGPlusStyle}
-                activeOpacity={0.5}>
+                activeOpacity={0.5}
+                onPress={() => navigation.navigate('Crew')} >
                 <Image
                     source={require('../assets/crew.jpg')}
                     style={styles.buttonImageIconStyle}

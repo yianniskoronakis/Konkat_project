@@ -9,6 +9,8 @@ import SplashScreen from "../screens/SplashScreen";
 import {
   Button,Text
 } from 'react-native';
+import VesselList from "../screens/VesselList";
+import CrewList from "../screens/CrewList";
 
 const Stack = createNativeStackNavigator();
 
@@ -35,7 +37,15 @@ const Navigation = () =>  {
                       <Button title="Logout" color="red" onPress={logout}/>
                   </>
                   )}}
-                />  
+                /> 
+                <Stack.Screen 
+                  name="Vessel"
+                  component={VesselList}
+                /> 
+                <Stack.Screen 
+                  name="Crew"
+                  component={CrewList}
+                /> 
               </>
             ) : (
               <>

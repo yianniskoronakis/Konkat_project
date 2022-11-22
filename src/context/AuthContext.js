@@ -1,12 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useEffect, useState, useContext} from 'react';
+
+import {VslCrewScreen} from '../screens/CrewList';
 
 import {BASE_URL} from '../config';
 
 export const AuthContext = createContext();
 
+
 export const AuthProvider = ({children, navigation}) => {
+
+  const {selected} = useState(VslCrewScreen);
   const [userInfo, setUserInfo] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [splashLoading, setSplashLoading] = useState(false);
@@ -14,6 +19,7 @@ export const AuthProvider = ({children, navigation}) => {
   const [vslCrew, setVslCrew] = useState([]);
   const [seamenDtls, setSeamenDtls] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
+  
   useEffect(() => {
     isLoggedIn();
   }, []);
@@ -79,6 +85,7 @@ export const AuthProvider = ({children, navigation}) => {
     setUserInfo({});
     setIsLoading(false);
     setAllVessel([]);
+    setVslCrew([]);
   };
 
   const isLoggedIn = async () => {
@@ -100,21 +107,32 @@ export const AuthProvider = ({children, navigation}) => {
       console.log(`is logged in error ${e}`);
     }
   };
-  const getVesselCrewlist = vesselId => {
-    let access_token = userInfo.bearer;
+
+  const getVesselCrewlist = selected => {
+    setIsLoading(true);
+ 
+
+    let access_token = userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
+    let vslId = selected;
+
+    console.log("-------------vslId-----------------")
+    console.log(selected)
 
     axios
       .get(
-        `${BASE_URL}/lists/vwservicedisplay?dataSource=test`,//${vesselId}
+         `${BASE_URL}/lists/vwservicedisplay?dataSource=test&key=${vslId}`,
         {
           headers: {Authorization: `Bearer ${access_token}`},
         },
       )
       .then(res => {
+        
         setVslCrew(res.data);
+        setIsLoading(false);
       })
       .catch(e => {
         console.log(` getVesselCrewlist error ${e}`);
+        setIsLoading(false);
       });
   };
 

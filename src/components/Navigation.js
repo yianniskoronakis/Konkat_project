@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import VesselList from "../screens/VesselList";
 import CrewList from "../screens/CrewList";
+import SeamenDtls from "../screens/SeamenDtls";
 
 const Stack = createNativeStackNavigator();
 
@@ -45,6 +46,10 @@ const Navigation = () =>  {
                 <Stack.Screen 
                   name="Crew"
                   component={CrewList}
+                /> 
+                <Stack.Screen 
+                  name="SeamenDtls"
+                  component={SeamenDtls}
                 /> 
               </>
             ) : (

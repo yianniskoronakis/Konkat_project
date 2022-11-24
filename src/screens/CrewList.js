@@ -12,7 +12,6 @@ const VslCrewScreen = ({navigation}) => {
   const [selected, setSelected] = useState(undefined);
   const [vslData, setVslData] = useState([]);
   //const [data, setData] = useState([]);
-   
  
   const data = [];
    allVessel.map((e,i) => {
@@ -23,7 +22,7 @@ const VslCrewScreen = ({navigation}) => {
     getSeamenDtls(unid);
     navigation.navigate('SeamenDtls');
   }; 
-
+ 
   return (
 
     <View>
@@ -53,14 +52,18 @@ const VslCrewScreen = ({navigation}) => {
                 e.Sspeciality +
                 ' - Nationality : ' +
                 e.national
+                
               }
+              
               onPress={() => getSeamenDetails(e.unid)}
+              
               //trailing={<Icon name="chevron-right" />}
             />
           );
         })}
       </ScrollView>
     </View>
+    
   );
 };
 

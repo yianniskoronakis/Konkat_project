@@ -115,9 +115,6 @@ export const AuthProvider = ({children, navigation}) => {
     let access_token = userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
     let vslId = selected;
 
-    console.log("-------------vslId-----------------")
-    console.log(selected)
-
     axios
       .get(
          `${BASE_URL}/lists/vwservicedisplay?dataSource=test&key=${vslId}`,

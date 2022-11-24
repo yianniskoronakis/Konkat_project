@@ -18,17 +18,11 @@ const VslCrewScreen = ({navigation}) => {
    allVessel.map((e,i) => {
     data.push({key : String(i+1),value:e.shipname, name:e.ploioname});
     })
-  //const v = selected
-  
-  
+
   const getSeamenDetails = unid => {
     getSeamenDtls(unid);
     navigation.navigate('SeamenDtls');
   }; 
- console.log("----------selected----------------")
- console.log(selected)
- console.log(data)
- console.log("----------------------------------")
 
   return (
 
@@ -37,11 +31,14 @@ const VslCrewScreen = ({navigation}) => {
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header> 
       <SelectList 
-        setSelected={(val) => setSelected(val)} 
+        setSelected={(val) => {
+          const found = data.find(element => element.value==val);
+          setSelected(found.name)}} 
         data={data} 
         save="value"
     />
-      <Button  onPress={() => getVesselCrewlist(selected)} >
+      <Button  onPress={() => {
+        getVesselCrewlist(selected)}} >
         COMMIT
         </Button>
       <ScrollView>

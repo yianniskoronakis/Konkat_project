@@ -148,6 +148,7 @@ export const AuthProvider = ({children, navigation}) => {
         console.log(` getSeamenDtls error ${e}`);
       });
   };
+  
 
   return (
     <AuthContext.Provider

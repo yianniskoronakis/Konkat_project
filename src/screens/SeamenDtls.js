@@ -1,43 +1,42 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet,Text,View,ScrollView} from 'react-native';
+import {ListItem, Avatar,} from '@react-native-material/core';
 import {AuthContext} from '../context/AuthContext';
 import {Appbar} from 'react-native-paper';
 
 
 const SeamenDtls = ({navigation}) => {
-  const {seamenDtls} = useContext(AuthContext);
 
-  <ScrollView>
-        {seamenDtls.map((e, index) => {
-          return (
-            <View>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-      </Appbar.Header>
-      {seamenDtls.map((e, index) => {
+      const {seamenDtls} = useContext(AuthContext);
+
         return (
           <>
-            <View style={styles.header}></View>
-            <Avatar style={styles.avatar} label={e.fullName} size={38} />
-            <View style={styles.body}>
-              <View style={styles.header}>
-                <Text style={styles.name}>{e.fullName}</Text>
-                <Text style={styles.scode}>{parseInt(e.sailorcode)}</Text>
+          {seamenDtls.map((e,index) => 
+            <>
+              <View style={styles.header}></View>
+              <Avatar style={styles.avatar} label={e.fullName} size={38} />
+              <View style={styles.body}>
+                <View style={styles.header}>
+                  {/* <Text style={styles.name}>{e.fullName}</Text> */}
+                  <Text style={styles.scode}>{parseInt(e.sailorcode)}</Text>
+                </View>
+                <View style={styles.bodyContent}>
+                  <ListItem title="Name" secondaryText={e.fullName} />
+                  <ListItem title="Rank" secondaryText={e.Sspeciality_e} />
+                  <ListItem title="Nationality" secondaryText={e.national} />
+                  <ListItem title="Birthdate" secondaryText={e.birthdate} />
+                  <ListItem title="Birthplace" secondaryText={e.birthplace} />
+                </View>
               </View>
-              <View style={styles.bodyContent}>
-                <ListItem title="Rank" secondaryText={e.Sspeciality_e} />
-                <ListItem title="Nationality" secondaryText={e.national} />
-                <ListItem title="Birthdate" secondaryText={e.birthdate} />
-                <ListItem title="Birthplace" secondaryText={e.birthplace} />
-              </View>
-            </View>
           </>
-        );
-      })}
-    </View>
-          );
-        })}
-      </ScrollView>
+          
+          )
+          }
+          </>
+        )
+      
+  
+      
 }
 
 const styles = StyleSheet.create({

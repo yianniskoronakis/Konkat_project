@@ -3,26 +3,27 @@ import {View, ScrollView,} from 'react-native';
 import {ListItem, Avatar,} from '@react-native-material/core';
 import {Appbar, Button} from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list';
-
+import SeamenDtls from './SeamenDtls';
 import {AuthContext} from '../context/AuthContext';
 
 const VslCrewScreen = ({navigation}) => {
 
-  const {vslId,getVesselCrewlist,allVessel,vslCrew, getSeamenDtls} = useContext(AuthContext);
+  const {getVesselCrewlist,allVessel,vslCrew, getSeamenDtls} = useContext(AuthContext);
   const [selected, setSelected] = useState(undefined);
   const [vslData, setVslData] = useState([]);
+  
   //const [data, setData] = useState([]);
- 
+  
   const data = [];
    allVessel.map((e,i) => {
     data.push({key : String(i+1),value:e.shipname, name:e.ploioname});
     })
 
-  const getSeamenDetails = unid => {
+  const getSeamenDetailsHelper = unid => {
     getSeamenDtls(unid);
     navigation.navigate('SeamenDtls');
   }; 
- 
+ //console.log(e.unid)
   return (
 
     <View>
@@ -55,7 +56,7 @@ const VslCrewScreen = ({navigation}) => {
                 
               }
               
-              onPress={() => getSeamenDetails(e.unid)}
+              onPress={() =>{getSeamenDetailsHelper(e['@unid'])}}
               
               //trailing={<Icon name="chevron-right" />}
             />

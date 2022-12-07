@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   link: {
-    color: 'blue',
+    color: '#00BFFF',
   },
 });
 

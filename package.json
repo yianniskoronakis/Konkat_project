@@ -33,7 +33,9 @@
     "metro-react-native-babel-preset": "0.72.3",
     "react-test-renderer": "18.1.0"
   },
+  "resolutions": { "glob": "7.2.0" },
   "jest": {
     "preset": "react-native"
   }
+  
 }

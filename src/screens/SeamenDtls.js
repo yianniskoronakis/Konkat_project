@@ -2,42 +2,42 @@ import React, {useContext, useEffect} from 'react';
 import {StyleSheet,Text,View,ScrollView} from 'react-native';
 import {AuthContext} from '../context/AuthContext';
 import {Appbar} from 'react-native-paper';
+import { Avatar } from 'react-native-paper';
+import { ListItem } from "@react-native-material/core";
 
 
 const SeamenDtls = ({navigation}) => {
   const {seamenDtls} = useContext(AuthContext);
+  
+  // if(seamenDtls){
+  //   console.log(seamenDtls,"ta details sto seamen comp")
+  // }
 
-  <ScrollView>
-        {seamenDtls.map((e, index) => {
-          return (
-            <View>
-      <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-      </Appbar.Header>
-      {seamenDtls.map((e, index) => {
+
         return (
           <>
-            <View style={styles.header}></View>
-            <Avatar style={styles.avatar} label={e.fullName} size={38} />
-            <View style={styles.body}>
-              <View style={styles.header}>
-                <Text style={styles.name}>{e.fullName}</Text>
-                <Text style={styles.scode}>{parseInt(e.sailorcode)}</Text>
-              </View>
-              <View style={styles.bodyContent}>
-                <ListItem title="Rank" secondaryText={e.Sspeciality_e} />
-                <ListItem title="Nationality" secondaryText={e.national} />
-                <ListItem title="Birthdate" secondaryText={e.birthdate} />
-                <ListItem title="Birthplace" secondaryText={e.birthplace} />
-              </View>
-            </View>
+          <ScrollView>
+          {seamenDtls ? seamenDtls.map((e,index) =>
+          <>
+               <View style={styles.body}>
+                 <View style={styles.header}>
+                   <Text style={styles.scode}>{e.fname_e},{e.lname_e}</Text>
+                 </View>
+                 <View style={styles.bodyContent}>
+                   <ListItem title="Name" secondaryText={e.Fname_e} />
+                   <ListItem title="Rank" secondaryText={e.lastEidikothta} />
+                   <ListItem title="Last Id Yphresias" secondaryText={e.lastidYphresias} />
+                   <ListItem title="Birthdate" secondaryText={e.status} />
+                   <ListItem title="Birthplace" secondaryText={e.birthplace} />
+                 </View>
+                 </View>
+                 </>
+                 
+          ):<Text>f34g34g</Text>
+          }
+          </ScrollView>
           </>
-        );
-      })}
-    </View>
-          );
-        })}
-      </ScrollView>
+        )
 }
 
 const styles = StyleSheet.create({

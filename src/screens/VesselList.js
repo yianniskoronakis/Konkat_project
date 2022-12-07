@@ -15,7 +15,7 @@ const VesselList = () => {
           return (
             <ListItem
               key={index}
-              leading={<Avatar label={e.shipname} size={38} />}
+              leading={<Avatar label={e.shipname} size={38} style={{backgroundcolor:'#00BFFF'}}/>}
               title={e.shipname + ' (' + e.shipcode + ')'}
               secondaryText={'IMO : ' + e.imo}
               //onPress={() => getVslDetails(e.ploioname)}

@@ -19,6 +19,8 @@ export const AuthProvider = ({children, navigation}) => {
   const [vslCrew, setVslCrew] = useState([]);
   const [seamenDtls, setSeamenDtls] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
+  const [SeamenServices, setSeamenServices] = useState([]);
+
   
   useEffect(() => {
     isLoggedIn();
@@ -33,7 +35,7 @@ export const AuthProvider = ({children, navigation}) => {
       userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
 
     axios
-      .get(`${BASE_URL}/lists/vwship1?dataSource=test`, {
+      .get(`${BASE_URL}/lists/vwship1?dataSource=crewrest`, {
         headers: {Authorization: `Bearer ${access_token}`},
       })
       .then(res => {
@@ -117,7 +119,7 @@ export const AuthProvider = ({children, navigation}) => {
 
     axios
       .get(
-         `${BASE_URL}/lists/vwservicedisplay?dataSource=test&key=${vslId}`,
+         `${BASE_URL}/lists/vwservicedisplay?dataSource=crewrest&key=${vslId}`,
         {
           headers: {Authorization: `Bearer ${access_token}`},
         },
@@ -133,19 +135,60 @@ export const AuthProvider = ({children, navigation}) => {
       });
   };
 
-  const getSeamenDtls = unid => {
+  const getSeamenDtls = sailorcode => {
     let access_token = userInfo.bearer;
 
-    axios
+    let body = JSON.stringify({"maxScanDocs": 500000,
+    "maxScanEntries": 200000,
+    "mode": "default",
+    "noViews": false,
+    "query": `form = 'crew4' and sailorcode = ${sailorcode}`,
+    "timeoutSecs": 300,
+      "variables": {
+      "sailc": 13567
+    },
+     "viewRefresh": true})
 
-      .get(`${BASE_URL}/lists/V_SEAMEN_DTLS?dataSource=test&key=${unid}`, {
-        headers: {Authorization: `Bearer ${access_token}`},
+    axios
+      //.get(`${BASE_URL}/lists/V_SEAMEN_DTLS?dataSource=test&key=${sailorcode}`, {
+        .post(`${BASE_URL}/query?dataSource=crewrest&action=execute`,
+        body,
+       {
+        headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json'},
       })
       .then(res => {
         setSeamenDtls(res.data);
+        console.log(res.data,"DOULEUEI RE")
       })
       .catch(e => {
         console.log(` getSeamenDtls error ${e}`);
+      });
+  };
+
+  const getSeamenServices = sailorcode => {
+    let access_token = userInfo.bearer;
+
+    let body = JSON.stringify({"maxScanDocs": 500000,
+    "maxScanEntries": 200000,
+    "mode": "default",
+    "noViews": false,
+    "query": `form = 'crew14' and Sailorcode = 13567`,
+    "timeoutSecs": 300,
+     "viewRefresh": true})
+
+    axios
+      //.get(`${BASE_URL}/lists/V_SEAMEN_DTLS?dataSource=test&key=${sailorcode}`, {
+        .post(`${BASE_URL}/query?dataSource=crewrest&action=execute`,
+        body,
+       {
+        headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json'},
+      })
+      .then(res => {
+        setSeamenDtls(res.data);
+        console.log(res.data,"DOULEUEI RE")
+      })
+      .catch(e => {
+        console.log(` getSeamenServices error ${e}`);
       });
   };
 
@@ -162,6 +205,7 @@ export const AuthProvider = ({children, navigation}) => {
         vslCrew,
         allVessel,
         getSeamenDtls,
+        getSeamenServices,
         seamenDtls,
         errorMsg,
       }}>

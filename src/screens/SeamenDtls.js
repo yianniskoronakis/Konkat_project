@@ -1,5 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet,Text,View,ScrollView} from 'react-native';
+import {ListItem, Avatar,} from '@react-native-material/core';
 import {AuthContext} from '../context/AuthContext';
 import {Appbar} from 'react-native-paper';
 import { Avatar } from 'react-native-paper';

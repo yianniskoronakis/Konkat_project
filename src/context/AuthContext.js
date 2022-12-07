@@ -164,6 +164,7 @@ export const AuthProvider = ({children, navigation}) => {
         console.log(` getSeamenDtls error ${e}`);
       });
   };
+  
 
   const getSeamenServices = sailorcode => {
     let access_token = userInfo.bearer;

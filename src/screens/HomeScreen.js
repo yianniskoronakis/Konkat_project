@@ -1,11 +1,18 @@
 import React, { useContext } from "react";
 import { View, StyleSheet,Button,Text, TouchableOpacity,Image } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
-import { black, white } from "react-native-paper/lib/typescript/styles/colors";
+import LinearGradient from 'react-native-linear-gradient';
 import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = ({navigation}) =>  {
-    const {isLoading} = useContext(AuthContext);
+    const {isLoading,clearState} = useContext(AuthContext);
+
+    const getCrew =()=>{
+       clearState()
+       console.log(" sto    getCrew")
+        navigation.navigate('Crew')
+    }
+
     return(
         <View style={styles.container}>
             <Spinner visible={isLoading}/>
@@ -13,8 +20,10 @@ const HomeScreen = ({navigation}) =>  {
                 style={styles.buttonGPlusStyle}
                 activeOpacity={0.5}
                 onPress={() => navigation.navigate('Vessel')} >
+                <LinearGradient colors={['#00BFFF', '#0086b3', '#192f6a']} style={styles.linearGradient}>
+
                 <Image
-                    source={require('../assets/ship.png')}
+                    source={require('../assets/whiteship.png')}
                     style={styles.buttonImageIconStyle}
                     
                 />
@@ -22,19 +31,22 @@ const HomeScreen = ({navigation}) =>  {
                 <Text style={styles.buttonTextStyle}>
                     VESSELS
                 </Text>
+                </LinearGradient>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.buttonGPlusStyle}
                 activeOpacity={0.5}
-                onPress={() => navigation.navigate('Crew')} >
+                onPress={() => getCrew()} >
+                <LinearGradient colors={['#00BFFF', '#0086b3', '#192f6a']} style={styles.linearGradient}>
                 <Image
-                    source={require('../assets/crew.png')}
+                    source={require('../assets/whitesailor.png')}
                     style={styles.buttonImageIconStyle}
                 />
                 
                 <Text style={styles.buttonTextStyle}>
                     CREW
                 </Text>
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     );
@@ -48,33 +60,40 @@ const styles = StyleSheet.create({
         marginTop: 30,
         padding: 30,
       },
+      linearGradient: {
+        flex: 1,
+        width:'100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5
+      },
       buttonGPlusStyle: {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00BFFF',
-        borderWidth: 0.5,
+
+        borderWidth: 5,
         borderColor: '#fff',
-        height: 150,
+        height: 200,
         borderRadius: 25,
         margin: 15,
         
       },
-      buttonImageIconStyle: {
+      buttonImageIconStyle: {      
         padding: 30,
-        margin: 25,
-        height: 35,
-        width: 35,
+        margin: 15,
+        height: 90,
+        width: 90,
         color:'white',
         resizeMode: 'stretch',
       },
       buttonTextStyle: {
-        color: 'white',
-         textShadowColor: 'rgb(60, 60, 60) ',
-        textShadowOffset: {width: -1, height: 1},
-        textShadowRadius: 5,
-        marginBottom: 4,
-        fontSize:20
+        fontSize: 18,
+        fontFamily: 'Gill Sans',
+        textAlign: 'center',
+        fontWeight: '90000000',
+        color: '#ffffff',
+        backgroundColor: 'transparent',
       },
       buttonIconSeparatorStyle: {
         backgroundColor: '#fff',

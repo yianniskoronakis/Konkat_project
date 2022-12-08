@@ -17,20 +17,24 @@ export const AuthProvider = ({children, navigation}) => {
   const [splashLoading, setSplashLoading] = useState(false);
   const [allVessel, setAllVessel] = useState([]);
   const [vslCrew, setVslCrew] = useState([]);
+  const [crewCount,setCrewCount] = useState(0);
   const [seamenDtls, setSeamenDtls] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
-  const [SeamenServices, setSeamenServices] = useState([]);
+  const [seamenServices, setSeamenServices] = useState([]);
 
   
   useEffect(() => {
     isLoggedIn();
   }, []);
 
+
+  const clearState = () => {
+    setVslCrew([])
+  }
+
   const getAllVessel = token => {
+
     setIsLoading(true);
-
-  
-
     let access_token =
       userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
 
@@ -125,7 +129,6 @@ export const AuthProvider = ({children, navigation}) => {
         },
       )
       .then(res => {
-        
         setVslCrew(res.data);
         setIsLoading(false);
       })
@@ -135,30 +138,19 @@ export const AuthProvider = ({children, navigation}) => {
       });
   };
 
-  const getSeamenDtls = sailorcode => {
+  const getSeamenDtls = unid => {
+
     let access_token = userInfo.bearer;
-
-    let body = JSON.stringify({"maxScanDocs": 500000,
-    "maxScanEntries": 200000,
-    "mode": "default",
-    "noViews": false,
-    "query": `form = 'crew4' and sailorcode = ${sailorcode}`,
-    "timeoutSecs": 300,
-      "variables": {
-      "sailc": 13567
-    },
-     "viewRefresh": true})
-
+    console.log(unid,"to unid sto getsemantlds")
     axios
-      //.get(`${BASE_URL}/lists/V_SEAMEN_DTLS?dataSource=test&key=${sailorcode}`, {
-        .post(`${BASE_URL}/query?dataSource=crewrest&action=execute`,
-        body,
+        .get(`${BASE_URL}/document/?dataSource=crewrest`,
        {
-        headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json'},
+        headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json',
+      'unid':unid},
+      
       })
-      .then(res => {
-        setSeamenDtls(res.data);
-        console.log(res.data,"DOULEUEI RE")
+      .then(res => {        
+        setSeamenDtls([res.data]);
       })
       .catch(e => {
         console.log(` getSeamenDtls error ${e}`);
@@ -169,24 +161,24 @@ export const AuthProvider = ({children, navigation}) => {
   const getSeamenServices = sailorcode => {
     let access_token = userInfo.bearer;
 
-    let body = JSON.stringify({"maxScanDocs": 500000,
+    let body = JSON.stringify(  {
+    "maxScanDocs": 500000,
     "maxScanEntries": 200000,
     "mode": "default",
     "noViews": false,
-    "query": `form = 'crew14' and Sailorcode = 13567`,
-    "timeoutSecs": 300,
-     "viewRefresh": true})
+    "query": `form = 'crew4' and sailorcode = ${sailorcode}`,
+   "timeoutSecs": 300,
+    "viewRefresh": true
+})
 
     axios
-      //.get(`${BASE_URL}/lists/V_SEAMEN_DTLS?dataSource=test&key=${sailorcode}`, {
         .post(`${BASE_URL}/query?dataSource=crewrest&action=execute`,
         body,
        {
         headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json'},
       })
       .then(res => {
-        setSeamenDtls(res.data);
-        console.log(res.data,"DOULEUEI RE")
+        setSeamenServices(res.data);
       })
       .catch(e => {
         console.log(` getSeamenServices error ${e}`);
@@ -208,7 +200,9 @@ export const AuthProvider = ({children, navigation}) => {
         getSeamenDtls,
         getSeamenServices,
         seamenDtls,
+        clearState,
         errorMsg,
+        seamenServices
       }}>
       {children}
     </AuthContext.Provider>

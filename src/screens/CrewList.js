@@ -1,16 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {View, ScrollView,Text} from 'react-native';
 import {ListItem, Avatar,} from '@react-native-material/core';
-import {Appbar, Button} from 'react-native-paper';
+import { Button} from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list';
-import SeamenDtls from './SeamenDtls';
 import {AuthContext} from '../context/AuthContext';
 
 const VslCrewScreen = ({navigation}) => {
 
-  const {getVesselCrewlist,allVessel,vslCrew, getSeamenDtls} = useContext(AuthContext);
+  const {getVesselCrewlist,allVessel,vslCrew, getSeamenDtls,getSeamenServices} = useContext(AuthContext);
   const [selected, setSelected] = useState(undefined);
-  const [vslData, setVslData] = useState([]);
   
   const data = [];
    allVessel.map((e,i) => {
@@ -18,16 +16,18 @@ const VslCrewScreen = ({navigation}) => {
     })
 
   const getSeamenDetailsHelper = unid => {
+    console.log(unid,"sto crewlist function")
     getSeamenDtls(unid);
     navigation.navigate('Seaman Dtls');
   }; 
-  const getSeamenServices = unid => {
-    getSeamenDtls(unid);
+  const getSeamenServicesHelper = unid => {
+    getSeamenServices(unid);
     navigation.navigate('Seaman Services');
   }; 
   return (
 
-    <View>
+    <View style={{padding:10}}>
+      <View style={{border:10}}>
       <SelectList 
         setSelected={(val) => {
           console.log(val,"to valllllllll")
@@ -37,18 +37,19 @@ const VslCrewScreen = ({navigation}) => {
         data={data} 
         save="value"
     />
-      <Button  textColor='white' style={{borderRadius:10,backgroundColor:'#00BFFF'}} onPress={() => {
+      <Button  color='#FFFFFF' style={{borderWidth: 1,borderColor: "thistle",marginTop:10,marginBottom:12,border:10,backgroundColor:'#00BFFF'}} onPress={() => {
         getVesselCrewlist(selected)}} >
         Find
         </Button>
+        </View>
       <ScrollView>
-        {vslCrew.map((e, index1) => {
+        {vslCrew.map((e, index1,index2,index3) => {
           return (
             <>
-            <View>
-            <ListItem
+            <View  style={{borderWidth: 1,borderColor: "thistle",marginTop:10,marginBottom:12,border:10}}>
+            <ListItem 
               key={index1}
-              leading={<Avatar label={e.fullName} size={38} />}
+              leading={<Avatar label={e.fullName} size={38} style={{backgroundColor:'#00BFFF'}}/>}
               title={e.fullName}
               secondaryText={
                 'Speciality :' +
@@ -57,22 +58,16 @@ const VslCrewScreen = ({navigation}) => {
                 e.national
                 
               }
-              
-              onPress={() => {
-                console.log(e.sailorcode,"TO SEILAOR CODE")
-               {getSeamenDetailsHelper(Math.floor(e['@sailorcod']e))}}}
-              
-              //trailing={<Icon name="chevron-right" />}
             />
             <View style={{flex:2,flexDirection: "row", padding:12, justifyContent: 'space-evenly'}}><Text>
-            <Button key={index1+1} color="cyan" onPress={() => {
+            <Button key={index2} color="#00BFFF" onPress={() => {
               console.log(e.sailorcode,"TO SEILAOR CODE")
-              getSeamenServices(Math.floor(e.sailorcode))}} >
+              getSeamenServicesHelper(Math.floor(e.sailorcode))}} >
               Services
               </Button>
-              <Button key={index1+2} color="cyan" onPress={() => {
-              console.log(e.sailorcode,"TO SEILAOR CODE")
-              getSeamenDetails(Math.floor(e.sailorcode))}} >
+              <Button key={index3} color="#00BFFF" onPress={() => {
+              console.log(e['@unid'],"to unid")
+              getSeamenDetailsHelper(e['@unid'])}} >
               Details
               </Button>
               </Text></View>

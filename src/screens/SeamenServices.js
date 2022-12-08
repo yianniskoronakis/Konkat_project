@@ -1,39 +1,61 @@
 import React, {useContext, useEffect} from 'react';
-import {StyleSheet,Text,Image,ScrollView} from 'react-native';
-import {ListItem,Avatar } from '@react-native-material/core';
+import {StyleSheet, Text, Image, ScrollView, View} from 'react-native';
+import {ListItem, Avatar} from '@react-native-material/core';
 import {AuthContext} from '../context/AuthContext';
 
 const SeamenServices = () => {
   const {seamenServices} = useContext(AuthContext);
-  
-  var adatehelper = ""
-  var serviceColor = ""
+
+  var adatehelper = '';
+  var serviceColor = '';
 
   return (
-    <ScrollView>
-    {seamenServices.map((e, index) => {
-      if(e.ADate==="2099-01-01" ){
-        adatehelper = 'On Board'
-        serviceColor = 'green'
-      }else{
-        adatehelper = 'Sign Off: '+ e.ADate 
-        serviceColor = 'red'
-      }
-      return (
-        <ListItem
-          key={index}
-          leading={<Avatar color={serviceColor} image={require('../assets/whitesailor.png')} size={38} style={{borderRadius:10}}/>}
-          title={'Ship Name: ' + e.shipname  + '\n'+
-          adatehelper + '\n' + 'Sign On: '+ e.Edate + '\n' + 
-          'Speciality: ' + e.Sspeciality_e}
-          secondaryText={'ID:'  + e.lastidYphresias}
-          
-        />       
-      );
-    })}
-  </ScrollView>
-  )
-}
+    <View>
+      <ListItem
+        title={`${seamenServices[0].lname_e} ${seamenServices[0].fname_e}`}
+        secondaryText={'Services : ' + seamenServices.length}
+      />
+
+      <ScrollView>
+        {seamenServices.map((e, index) => {
+          if (e.ADate === '2099-01-01') {
+            adatehelper = 'On Board';
+            serviceColor = 'green';
+          } else {
+            adatehelper = 'Sign Off: ' + e.ADate;
+            serviceColor = 'red';
+          }
+          return (
+            <ListItem
+              key={index}
+              leading={
+                <Avatar
+                  color={serviceColor}
+                  image={require('../assets/whitesailor.png')}
+                  size={38}
+                  style={{borderRadius: 10}}
+                />
+              }
+              title={
+                'Ship Name: ' +
+                e.shipname +
+                '\n' +
+                adatehelper +
+                '\n' +
+                'Sign On: ' +
+                e.Edate +
+                '\n' +
+                'Speciality: ' +
+                e.Sspeciality_e
+              }
+              secondaryText={'ID:' + e.lastidYphresias}
+            />
+          );
+        })}
+      </ScrollView>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   scode: {
     fontSize: 16,
@@ -42,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   header: {
-     backgroundColor: '#00BFFF',
+    backgroundColor: '#00BFFF',
     height: 100,
     marginTop: 10,
     alignItems: 'center',
@@ -90,4 +112,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-export default SeamenServices
+export default SeamenServices;

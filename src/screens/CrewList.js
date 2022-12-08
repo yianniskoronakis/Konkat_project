@@ -4,17 +4,19 @@ import {ListItem, Avatar,} from '@react-native-material/core';
 import { Button} from 'react-native-paper';
 import { SelectList } from 'react-native-dropdown-select-list';
 import {AuthContext} from '../context/AuthContext';
+import {decode as atob, encode as btoa} from 'base-64'
 
 const VslCrewScreen = ({navigation}) => {
 
   const {getVesselCrewlist,allVessel,vslCrew, getSeamenDtls,getSeamenServices} = useContext(AuthContext);
   const [selected, setSelected] = useState(undefined);
-  
+  const [helper,setHelper] = useState()
   const data = [];
+
    allVessel.map((e,i) => {
     data.push({key : String(i+1),value:e.shipname, name:e.ploioname});
     })
-
+    
   const getSeamenDetailsHelper = unid => {
     console.log(unid,"sto crewlist function")
     getSeamenDtls(unid);
@@ -49,14 +51,13 @@ const VslCrewScreen = ({navigation}) => {
             <View  style={{borderWidth: 1,borderColor: "thistle",marginTop:10,marginBottom:12,border:10}}>
             <ListItem 
               key={index1}
-              leading={<Avatar label={e.fullName} size={38} style={{backgroundColor:'#00BFFF'}}/>}
-              title={e.fullName}
+              leading={<Avatar label={e.lname_e } size={38} style={{backgroundColor:'#00BFFF'}}/>}
+              title={`${e.lname_e} ${e.fname_e}`}
               secondaryText={
-                'Speciality :' +
-                e.Sspeciality +
-                ' - Nationality : ' +
-                e.national
-                
+                'Speciality : ' +
+                e.Sspeciality_e + '\n' +
+                'Nationality : ' +
+                e.national_e                
               }
             />
             <View style={{flex:2,flexDirection: "row", padding:12, justifyContent: 'space-evenly'}}><Text>
@@ -66,8 +67,7 @@ const VslCrewScreen = ({navigation}) => {
               Services
               </Button>
               <Button key={index3} color="#00BFFF" onPress={() => {
-              console.log(e['@unid'],"to unid")
-              getSeamenDetailsHelper(e['@unid'])}} >
+              getSeamenDetailsHelper(parseInt(e.sailorcode))}} >
               Details
               </Button>
               </Text></View>

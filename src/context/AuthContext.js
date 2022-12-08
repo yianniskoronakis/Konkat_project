@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {createContext, useEffect, useState, useContext} from 'react';
-
+import {decode as atob} from 'base-64'
 import {VslCrewScreen} from '../screens/CrewList';
 
 import {BASE_URL} from '../config';
@@ -21,7 +21,7 @@ export const AuthProvider = ({children, navigation}) => {
   const [seamenDtls, setSeamenDtls] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
   const [seamenServices, setSeamenServices] = useState([]);
-
+  const [seamanImg,setSeamanImg]=useState()
   
   useEffect(() => {
     isLoggedIn();
@@ -123,7 +123,7 @@ export const AuthProvider = ({children, navigation}) => {
 
     axios
       .get(
-         `${BASE_URL}/lists/vwservicedisplay?dataSource=crewrest&key=${vslId}`,
+         `${BASE_URL}/lists/vwservicedisplay_en?dataSource=crewrest&key=${vslId}`,
         {
           headers: {Authorization: `Bearer ${access_token}`},
         },
@@ -138,28 +138,50 @@ export const AuthProvider = ({children, navigation}) => {
       });
   };
 
-  const getSeamenDtls = unid => {
+  const getSeamenDtls = sailorcode => {
 
     let access_token = userInfo.bearer;
-    console.log(unid,"to unid sto getsemantlds")
+
+    setIsLoading(true);
+    setSeamanImg()
+    setSeamenDtls();
+
+    let body=JSON.stringify({
+      "maxScanDocs": 500000,
+      "maxScanEntries": 200000,
+      "mode": "default",
+      "noViews": false,
+      "query": `form = 'crew14' and sailorcode = ${sailorcode}`,
+      "timeoutSecs": 300,
+      "viewRefresh": true
+    })
     axios
-        .get(`${BASE_URL}/document/?dataSource=crewrest`,
+        .post(`${BASE_URL}/query/?dataSource=crewrest&action=execute`,body,
        {
         headers: {Authorization: `Bearer ${access_token}`,'Content-Type':'application/json',
-      'unid':unid},
-      
+      }
       })
-      .then(res => {        
-        setSeamenDtls([res.data]);
+      .then(res => {   
+        //console.log(res.data[0].foto.content,"den exw idea")   
+        let helper = atob(res.data[0].foto.content)
+        let result = helper.split(/\r?\n/);
+        let final = result[24]
+        setSeamanImg(final)
+        setSeamenDtls(res.data);
+        setIsLoading(false);
       })
       .catch(e => {
         console.log(` getSeamenDtls error ${e}`);
+        setIsLoading(false);
       });
   };
   
 
   const getSeamenServices = sailorcode => {
+
     let access_token = userInfo.bearer;
+
+    setIsLoading(true);
 
     let body = JSON.stringify(  {
     "maxScanDocs": 500000,
@@ -179,9 +201,11 @@ export const AuthProvider = ({children, navigation}) => {
       })
       .then(res => {
         setSeamenServices(res.data);
+        setIsLoading(false);
       })
       .catch(e => {
         console.log(` getSeamenServices error ${e}`);
+        setIsLoading(false);
       });
   };
 
@@ -202,7 +226,8 @@ export const AuthProvider = ({children, navigation}) => {
         seamenDtls,
         clearState,
         errorMsg,
-        seamenServices
+        seamenServices,
+        seamanImg
       }}>
       {children}
     </AuthContext.Provider>

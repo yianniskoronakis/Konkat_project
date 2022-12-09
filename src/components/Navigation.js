@@ -13,6 +13,7 @@ import VesselList from "../screens/VesselList";
 import CrewList from "../screens/CrewList";
 import SeamenDtls from "../screens/SeamenDtls";
 import SeamenServices from "../screens/SeamenServices";
+import VesselDtls from "../screens/VesselDtls";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,10 @@ const Navigation = () =>  {
                  <Stack.Screen 
                   name="Seaman Services"
                   component={SeamenServices}
+                /> 
+                  <Stack.Screen 
+                  name="Vessel Details"
+                  component={VesselDtls}
                 /> 
               </>
             ) : (

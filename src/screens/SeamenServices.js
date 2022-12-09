@@ -8,14 +8,15 @@ const SeamenServices = () => {
 
   var adatehelper = '';
   var serviceColor = '';
-
+  console.log(seamenServices)
   return (
     <View>
+      {seamenServices[0] && (
       <ListItem
         title={`${seamenServices[0].lname_e} ${seamenServices[0].fname_e}`}
         secondaryText={'Services : ' + seamenServices.length}
       />
-
+      )}
       <ScrollView>
         {seamenServices.map((e, index) => {
           if (e.ADate === '2099-01-01') {

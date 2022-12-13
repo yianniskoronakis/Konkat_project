@@ -12,7 +12,7 @@ const VslCrewScreen = ({navigation}) => {
     allVessel,
     vslCrew,
     getSeamenDtls,
-    crewNumber,
+    clearServices,
     getSeamenServices,
   } = useContext(AuthContext);
   const [selected, setSelected] = useState(undefined);
@@ -28,6 +28,7 @@ const VslCrewScreen = ({navigation}) => {
     navigation.navigate('Seaman Dtls');
   };
   const getSeamenServicesHelper = unid => {
+    clearServices()
     getSeamenServices(unid);
     navigation.navigate('Seaman Services');
   };
@@ -50,7 +51,7 @@ const VslCrewScreen = ({navigation}) => {
             marginTop: 10,
             marginBottom: 12,
             border: 10,
-            backgroundColor: '#00BFFF',
+            backgroundColor: '#343d67',
           }}
           onPress={() => {
             getVesselCrewlist(selected);
@@ -76,7 +77,7 @@ const VslCrewScreen = ({navigation}) => {
                     <Avatar
                       label={e.lname_e}
                       size={38}
-                      style={{backgroundColor: '#00BFFF'}}
+                      style={{backgroundColor: '#343d67'}}
                     />
                   }
                   title={`${e.lname_e} ${e.fname_e}`}
@@ -98,16 +99,15 @@ const VslCrewScreen = ({navigation}) => {
                   <Text>
                     <Button
                       key={index2}
-                      color="#00BFFF"
+                      color="#343d67"
                       onPress={() => {
-                        console.log(e.sailorcode, 'TO SEILAOR CODE');
                         getSeamenServicesHelper(Math.floor(e.sailorcode));
                       }}>
                       Services
                     </Button>
                     <Button
                       key={index3}
-                      color="#00BFFF"
+                      color="#343d67"
                       onPress={() => {
                         getSeamenDetailsHelper(parseInt(e.sailorcode));
                       }}>

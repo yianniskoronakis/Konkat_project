@@ -7,7 +7,8 @@ import {AuthContext} from '../context/AuthContext';
 const SeamenDtls = ({navigation}) => {
   const {seamenDtls,seamanImg,isLoading} = useContext(AuthContext);
   var base64Icon = `data:image/png;base64,${seamanImg}`;
-        return (
+
+  return (
           <>
           <ScrollView>
           {seamenDtls ? seamenDtls.map((e,index) =>
@@ -15,7 +16,7 @@ const SeamenDtls = ({navigation}) => {
                <View style={styles.body}>
                  <View style={styles.header}>
                    <Text style={styles.scode}>{e.fname_e} {e.lname_e} </Text>
-                   <Avatar color='#00BFFF' image={{uri: base64Icon}} size={100} style={{justifyContent: 'center',
+                   <Avatar color='#343d67' image={{uri: base64Icon}} size={100} style={{justifyContent: 'center',
                       alignItems: 'center', left: 0, right: 0, bottom: 4}}/>
                  </View>
                  <View style={styles.bodyContent}>
@@ -23,10 +24,9 @@ const SeamenDtls = ({navigation}) => {
                    <ListItem title="Last" secondaryText={e.lname_e} />
                    <ListItem title="Speciality" secondaryText={e.speciality_e} />
                    <ListItem title="Sailor Code" secondaryText={e.sailorcode} />
-                   <ListItem title="Embarkation Date" secondaryText={e.Edate} />
-                   {e.Adate=="2099-01-01" ?
+                   {e.lastAdate=="2099-01-01" ?
                      <ListItem title="Currently On-Board" />
-                        :   <ListItem title="Embarkation Date" secondaryText={e.Edate} />} 
+                        :   <ListItem title="Embarkation Date" secondaryText={e.lastEdate} />} 
                  </View>
                  </View>
                  </>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   header: {
     height: 100,
     marginBottom:20,
-    backgroundColor:'#00BFFF',
+    backgroundColor:'#343d67',
     alignItems: 'center',
   },
   avatar: {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: 63,
     marginBottom:10,
     borderWidth: 4,
-    backgroundColor: '#00BFFF',
+    backgroundColor: '#343d6701',
     alignSelf: 'center',
     position: 'absolute',
     marginTop: 80,

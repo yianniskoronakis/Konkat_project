@@ -7,37 +7,28 @@ import {AuthContext} from '../context/AuthContext';
 const VesselDtls = ({route}) => {
   const {allVessel} = useContext(AuthContext);
   const ship = route.params.ship
-    console.log(ship)
-  const ship1 = allVessel.find(element=>{
-    element.shipname == ship})
-
-console.log(ship1)
+  const ship1 = allVessel.filter(element=>{
+    return element.shipname.replace(/\s+/g, '')==ship.replace(/\s+/g, '')})
 
         return (
           <>
-          <ScrollView>
-         
-          <>
-               <View style={styles.body}>
-                 {/* <View style={styles.header}>
-                   <Text style={styles.scode}>{e.fname_e} {e.lname_e} </Text>
-                   <Avatar color='#00BFFF' image={{uri: base64Icon}} size={100} style={{justifyContent: 'center',
-                      alignItems: 'center', left: 0, right: 0, bottom: 4}}/>
-                 </View>
-                 <View style={styles.bodyContent}>
-                   <ListItem title="Name" secondaryText={e.fname_e} />
-                   <ListItem title="Last" secondaryText={e.lname_e} />
-                   <ListItem title="Speciality" secondaryText={e.speciality_e} />
-                   <ListItem title="Sailor Code" secondaryText={e.sailorcode} />
-                   <ListItem title="Embarkation Date" secondaryText={e.Edate} />
-                   {e.Adate=="2099-01-01" ?
-                     <ListItem title="Currently On-Board" />
-                        :   <ListItem title="Embarkation Date" secondaryText={e.Edate} />} 
-                 </View> */}
-                 
-                 </View>
-                 </>
-          </ScrollView>
+          {ship1[0] && (
+            <ScrollView>
+            <View style={styles.body}>
+              <View style={styles.header}>
+                <Text style={styles.scode}>{ship1[0].shipname} </Text>
+              </View>
+              <View style={styles.bodyContent}>
+                <ListItem title="Name" secondaryText={ship1[0].shipname} />
+                <ListItem title="System Name" secondaryText={ship1[0].shipname} />
+                <ListItem title="ShipCode" secondaryText={ship1[0].shipcode} />
+                <ListItem title="IMO" secondaryText={ship1[0].imo} />
+                <ListItem title="On Board" secondaryText={ship1[0].onboard} />
+              </View>
+              </View>
+            </ScrollView>
+          )}
+          
           </>
         )
 }
@@ -54,8 +45,10 @@ const styles = StyleSheet.create({
   header: {
     height: 100,
     marginBottom:20,
-    backgroundColor:'#00BFFF',
+    backgroundColor:'#343d67',
     alignItems: 'center',
+    justifyContent: 'center',
+
   },
   avatar: {
     width: 130,
@@ -78,10 +71,12 @@ const styles = StyleSheet.create({
   body: {
     marginTop: 40,
     flex:1
+
   },
   bodyContent: {
     color: '#FFFFFF',
     marginTop: 0,
+   
     padding: 30,
   },
   name: {

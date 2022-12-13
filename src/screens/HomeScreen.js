@@ -28,7 +28,7 @@ const HomeScreen = ({navigation}) => {
         activeOpacity={0.5}
         onPress={() => navigation.navigate('Vessel')}>
         <LinearGradient
-          colors={['#00BFFF', '#0086b3', '#192f6a']}
+          colors={['#4c669f', '#4c669f', '#343d67', '#343d67']}
           style={styles.linearGradient}>
           <Image
             source={require('../assets/whiteship.png')}
@@ -43,7 +43,7 @@ const HomeScreen = ({navigation}) => {
         activeOpacity={0.5}
         onPress={() => getCrew()}>
         <LinearGradient
-          colors={['#00BFFF', '#0086b3', '#192f6a']}
+          colors={['#4c669f', '#4c669f', '#343d67', '#343d67']}
           style={styles.linearGradient}>
           <Image
             source={require('../assets/whitesailor.png')}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
   },
   buttonGPlusStyle: {
     flexDirection: 'column',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: '#fff',
     height: 200,
-    borderRadius: 25,
+    borderRadius: 70,
     margin: 15,
   },
   buttonImageIconStyle: {

@@ -30,6 +30,10 @@ export const AuthProvider = ({children, navigation}) => {
     setVslCrew([]);
   };
 
+  const clearServices = () =>{
+    setSeamenServices([])
+  }
+
   const getVslOnBoard = (vslList, token) => {
     setAllVessel([]);
     console.log('----------------------------------');
@@ -45,7 +49,6 @@ export const AuthProvider = ({children, navigation}) => {
           },
         )
         .then(res => {
-          console.log(vslRows['ploioname']);
           setAllVessel(setAllVessel => [
             ...setAllVessel,
             {
@@ -205,9 +208,7 @@ export const AuthProvider = ({children, navigation}) => {
 
   const getSeamenServices = sailorcode => {
     let access_token = userInfo.bearer;
-
     setIsLoading(true);
-
     let body = JSON.stringify({
       maxScanDocs: 500000,
       maxScanEntries: 200000,
@@ -254,6 +255,7 @@ export const AuthProvider = ({children, navigation}) => {
         errorMsg,
         seamenServices,
         seamanImg,
+        clearServices,
         crewNumber,
       }}>
       {children}

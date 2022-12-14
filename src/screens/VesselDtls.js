@@ -4,31 +4,28 @@ import {ListItem,Avatar} from '@react-native-material/core';
 import {AuthContext} from '../context/AuthContext';
 
 
-const VesselDtls = ({route}) => {
-  const {allVessel} = useContext(AuthContext);
-  const ship = route.params.ship
-  const ship1 = allVessel.filter(element=>{
-    return element.shipname.replace(/\s+/g, '')==ship.replace(/\s+/g, '')})
+const VesselDtls = () => {
+  const { vslDtls} = useContext(AuthContext);
+
 
         return (
           <>
-          {ship1[0] && (
-            <ScrollView>
+           <ScrollView>
             <View style={styles.body}>
               <View style={styles.header}>
-                <Text style={styles.scode}>{ship1[0].shipname} </Text>
+                <Text style={styles.scode}>{vslDtls.shipname} </Text>
               </View>
               <View style={styles.bodyContent}>
-                <ListItem title="Name" secondaryText={ship1[0].shipname} />
-                <ListItem title="System Name" secondaryText={ship1[0].shipname} />
-                <ListItem title="ShipCode" secondaryText={ship1[0].shipcode} />
-                <ListItem title="IMO" secondaryText={ship1[0].imo} />
-                <ListItem title="On Board" secondaryText={ship1[0].onboard} />
+              <ListItem title="IMO" secondaryText={vslDtls.imo} />
+                <ListItem title="Type" secondaryText={vslDtls.vtype} />
+                <ListItem title="Company" secondaryText={vslDtls.company} />
+                <ListItem title="DWT" secondaryText={vslDtls.dwt} />
+                
+               
               </View>
               </View>
             </ScrollView>
-          )}
-          
+        
           </>
         )
 }

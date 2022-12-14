@@ -22,6 +22,9 @@ export const AuthProvider = ({children, navigation}) => {
   const [seamanImg, setSeamanImg] = useState();
   const [crewNumber, setCrewNumber] = useState();
   const [count, setCount] = useState([]);
+  const [scope,setScope] = useState([])
+  const [vslDtls,setVslDtls] = useState([])
+  
   useEffect(() => {
     isLoggedIn();
   }, []);
@@ -36,10 +39,11 @@ export const AuthProvider = ({children, navigation}) => {
 
   const getVslOnBoard = (vslList, token) => {
     setAllVessel([]);
-    console.log('----------------------------------');
+    getScope(token)
+    
     let access_token =
       userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
-
+  
     vslList.sort().map(vslRows =>
       axios
         .get(
@@ -57,11 +61,63 @@ export const AuthProvider = ({children, navigation}) => {
               imo: vslRows['imo'],
               shipname: vslRows['shipname'],
               onboard: res.data.length,
+              unId: vslRows['@unid'],
             },
           ]);
         }),
     );
   };
+
+  const getScope = (token) =>{
+    setIsLoading(true)
+    let access_token =
+      userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
+    axios
+    .get(`${BASE_URL}/scope/access?dataSource=crewrest`, {
+      headers: {Authorization: `Bearer ${access_token}`},
+    })
+    .then(res => {
+      
+      setScope(res.data.Roles)
+      
+  
+  setIsLoading(false)
+    })
+    .catch(e => {
+      console.log(`scope error ${e}`);
+      setIsLoading(false)
+
+    });
+  }
+
+
+
+  const getVslDtls = (unid) =>{
+    setVslDtls([])
+    setIsLoading(true)
+
+
+    let access_token =
+      userInfo.bearer != undefined ? userInfo.bearer : token.bearer;
+
+ 
+    axios
+    .get(`${BASE_URL}//document/?unid=${unid}&dataSource=crewrest`, {
+      headers: {Authorization: `Bearer ${access_token}`},
+    })
+    .then(res => {      
+      setVslDtls(res.data)
+
+    
+      setIsLoading(false)
+    })
+    .catch(e => {
+      console.log(`scope error ${e}`);
+      setIsLoading(false)
+
+    });
+  }
+
 
   const getAllVessel = token => {
     setIsLoading(true);
@@ -257,6 +313,10 @@ export const AuthProvider = ({children, navigation}) => {
         seamanImg,
         clearServices,
         crewNumber,
+        getScope,
+        scope,
+        getVslDtls,
+        vslDtls
       }}>
       {children}
     </AuthContext.Provider>

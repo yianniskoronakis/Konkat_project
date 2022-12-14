@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState,useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -12,7 +12,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {AuthContext} from '../context/AuthContext';
 
 const HomeScreen = ({navigation}) => {
-  const {isLoading, clearState} = useContext(AuthContext);
+  const {isLoading, clearState,getScope,scope} = useContext(AuthContext);
+  const [scopeHlp,setScopeHlp] = useState()
 
   const getCrew = () => {
     clearState();
@@ -23,11 +24,15 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Spinner visible={isLoading} />
+        <>
+      {scope.find(v => v === "[VSL_BTN]") && 
       <TouchableOpacity
+        
         style={styles.buttonGPlusStyle}
         activeOpacity={0.5}
         onPress={() => navigation.navigate('Vessel')}>
         <LinearGradient
+          
           colors={['#4c669f', '#4c669f', '#343d67', '#343d67']}
           style={styles.linearGradient}>
           <Image
@@ -38,6 +43,8 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.buttonTextStyle}>VESSELS</Text>
         </LinearGradient>
       </TouchableOpacity>
+      }
+    {scope.find(v => v === "[CREW_BTN]") && 
       <TouchableOpacity
         style={styles.buttonGPlusStyle}
         activeOpacity={0.5}
@@ -53,6 +60,9 @@ const HomeScreen = ({navigation}) => {
           <Text style={styles.buttonTextStyle}>CREW</Text>
         </LinearGradient>
       </TouchableOpacity>
+    }
+    </>
+
     </View>
   );
 };

@@ -5,7 +5,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import {AuthContext} from '../context/AuthContext';
 
 const VesselList = ({navigation}) => {
-  const {allVessel} = useContext(AuthContext);
+  const {allVessel , getVslDtls} = useContext(AuthContext);
+   
+   const goToVslDtls = (unid) => {
+    
+    getVslDtls(unid)
+
+    navigation.navigate('Vessel Details')
+
+  }
+
+  //
+
   return (
     <ScrollView >
       <View  >
@@ -17,8 +28,8 @@ const VesselList = ({navigation}) => {
           <ListItem
             title={e.shipname + ' (' + e.shipcode + ')'}
             secondaryText={'IMO : ' + e.imo + ' | On Board :' + e.onboard}
-            onPress={() => 
-            navigation.navigate('Vessel Details',{ship:e.shipname}) }
+            onPress={() => goToVslDtls(e.unId)
+             }
           />
         );
       })}
